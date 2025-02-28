@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <style>
+html, body {
+  overflow: auto;
+  min-height: 100%;
+  height: 100%;
+}
+body {
+  height: 100vh;
+}
+    </style>
+  </head>
+  <body>
+    <div id='container'></div>
+    <script src="/static/vis.js"></script>
+    <script>
+      const params = "{{ params }}";  // 获取后端传递的params字符串
+      const urlParams = new URLSearchParams(params);  // 将params解析为URLSearchParams对象
+      const url = urlParams.get('url');
+      let token = urlParams.get('token');
+      let credsUrl = urlParams.get('creds_url');
+      let state = urlParams.get('vs');
+      let checkpoint = urlParams.get('checkpoint');
+      let linkCredsUrl = urlParams.get('link_creds_url');
+      let container = document.getElementById('container');
+
+      window.vis.visualize(url, checkpoint, state, container, {
+          backlink: true,
+          requireToken: token === 'ask',
+          token: token,
+          credsUrl: credsUrl,
+          linkCredsUrl: linkCredsUrl,
+          controlPanel: true,
+          gridMode: "canvas"
+      }).then(e => {
+      });
+    </script>
+  </body>
+</html>
